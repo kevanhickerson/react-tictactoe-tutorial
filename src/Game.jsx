@@ -9,6 +9,10 @@ export default class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
+        position: {
+          col: null,
+          row: null,
+        },
       }],
       stepNumber: 0,
       xIsNext: true,
@@ -22,7 +26,7 @@ export default class Game extends React.Component {
 
     const moves = history.map((step, move) => {
       const desc = move ?
-        `Go to move#${move}` :
+        `Go to move#${move} (${step.position.col}, ${step.position.row})` :
         'Go to game start';
 
         let button = <button onClick={() => this.jumpTo(move)}>{desc}</button>;
@@ -71,6 +75,10 @@ export default class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
+        position: {
+          col: (i % 3) + 1,
+          row: Math.floor(i / 3) + 1,
+        },
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
